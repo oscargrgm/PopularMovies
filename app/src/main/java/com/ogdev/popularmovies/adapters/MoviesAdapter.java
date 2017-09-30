@@ -1,8 +1,7 @@
 package com.ogdev.popularmovies.adapters;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ogdev.popularmovies.R;
-import com.ogdev.popularmovies.fragments.MovieDetailFragment;
+import com.ogdev.popularmovies.activities.MovieDetailActivity;
 import com.ogdev.popularmovies.models.Movie;
 
 import java.util.ArrayList;
@@ -81,15 +80,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
         @OnClick(R.id.card_movie)
         public void onClick() {
-            Fragment mFragment = new MovieDetailFragment();
-            Bundle mBundle = new Bundle();
-            mBundle.putParcelable(EXTRA_MOVIE_ID, mMovies.get(getAdapterPosition()));
-            mFragment.setArguments(mBundle);
+            Intent detailIntent = new Intent(mContext, MovieDetailActivity.class);
+            detailIntent.putExtra(EXTRA_MOVIE_ID, mMovies.get(getAdapterPosition()));
+            mContext.startActivity(detailIntent);
 
-            mFragmentManager.beginTransaction()
-                    .add(R.id.activity_main_frameLayout, mFragment, mFragment.getClass().getSimpleName())
-                    .addToBackStack(mFragment.getClass().getSimpleName())
-                    .commit();
+//            Fragment mFragment = new MovieDetailFragment();
+//            Bundle mBundle = new Bundle();
+//            mBundle.putParcelable(EXTRA_MOVIE_ID, mMovies.get(getAdapterPosition()));
+//            mFragment.setArguments(mBundle);
+
+//            mFragmentManager.beginTransaction()
+//                    .add(R.id.activity_main_frameLayout, mFragment, mFragment.getClass().getSimpleName())
+//                    .addToBackStack(mFragment.getClass().getSimpleName())
+//                    .commit();
         }
     }
 }

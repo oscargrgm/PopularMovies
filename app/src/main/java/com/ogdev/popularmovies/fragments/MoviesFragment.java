@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ogdev.popularmovies.R;
+import com.ogdev.popularmovies.activities.SplashActivity;
 import com.ogdev.popularmovies.adapters.MoviesAdapter;
 import com.ogdev.popularmovies.models.Movie;
 import com.ogdev.popularmovies.sorters.PopularSorter;
@@ -105,10 +106,10 @@ public class MoviesFragment extends Fragment {
         mMovies.clear();
         switch (item.getItemId()) {
             case R.id.ic_menu_popular:
-                fetchMoviesAndUpdateList("popular", 1);
+                fetchMoviesAndUpdateList(SplashActivity.ORDER_POPULAR, 1);
                 return true;
             case R.id.ic_menu_top_rated:
-                fetchMoviesAndUpdateList("top_rated", 2);
+                fetchMoviesAndUpdateList(SplashActivity.ORDER_TOP_RATED, 2);
                 return true;
         }
 

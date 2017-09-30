@@ -19,7 +19,8 @@ import butterknife.ButterKnife;
 public class SplashActivity extends AppCompatActivity {
 
     private final static String LOG_TAG = SplashActivity.class.getSimpleName();
-    private final static String ORDER_POPULAR = "popular";
+    public final static String ORDER_POPULAR = "popular";
+    public final static String ORDER_TOP_RATED = "top_rated";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,8 +31,8 @@ public class SplashActivity extends AppCompatActivity {
 
         if (!DatabaseUtilities.getMoviesFromDatabase(getApplicationContext()).isEmpty()) {
             startMainActivity();
-        } else if (NetworkUtilities.isConnected(SplashActivity.this)) {
-            FetchMoviesTaskUtilities mTask = new FetchMoviesTaskUtilities(SplashActivity.this, "popular");
+        } else if (NetworkUtilities.isConnected(this)) {
+            FetchMoviesTaskUtilities mTask = new FetchMoviesTaskUtilities(this, ORDER_POPULAR);
             ArrayList<Movie> mMovies = new ArrayList<>();
             try {
                 mMovies = mTask.execute().get();
@@ -40,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
             } finally {
                 if (!mMovies.isEmpty()) {
                     for (Movie mMovie : mMovies) {
-                        DatabaseUtilities.addMovieToContentProvider(SplashActivity.this, mMovie);
+                        DatabaseUtilities.addMovieToContentProvider(this, mMovie);
                     }
                 }
                 startMainActivity();
@@ -49,7 +50,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void startMainActivity() {
-        Intent mIntent = new Intent(SplashActivity.this, MainActivity.class);
+        Intent mIntent = new Intent(this, MainActivity.class);
         startActivity(mIntent);
         finish();
     }

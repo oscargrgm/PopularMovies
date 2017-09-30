@@ -1,12 +1,11 @@
-package com.ogdev.popularmovies.fragments;
+package com.ogdev.popularmovies.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,8 +22,10 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieDetailFragment extends Fragment {
+public class MovieDetailActivity extends AppCompatActivity {
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     @BindView(R.id.movie_detail_poster_imageView)
     ImageView mMoviePoster;
     @BindView(R.id.movie_detail_title_textView)
@@ -39,34 +40,36 @@ public class MovieDetailFragment extends Fragment {
     private Movie mMovie;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
+        setContentView(R.layout.activity_movie_detail);
+        ButterKnife.bind(this);
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
-        ButterKnife.bind(this, view);
-
-        Bundle mBundle = getArguments();
-        mMovie = mBundle.getParcelable(MoviesAdapter.EXTRA_MOVIE_ID);
-        initView();
-
-        return view;
+        Bundle mBundle = getIntent().getExtras();
+        if (mBundle != null) {
+            mMovie = mBundle.getParcelable(MoviesAdapter.EXTRA_MOVIE_ID);
+            initToolbar();
+            initView();
+        }
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.ic_menu_popular).setVisible(false);
-        menu.findItem(R.id.ic_menu_top_rated).setVisible(false);
-        super.onPrepareOptionsMenu(menu);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return false;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
+    private void initToolbar() {
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(mMovie.getTitle());
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void initView() {
@@ -93,4 +96,6 @@ public class MovieDetailFragment extends Fragment {
         mMovieRating.setText(String.valueOf(mMovie.getVoteAverage()).substring(0, 3));
         mMovieSynopsis.setText(mMovie.getOverview());
     }
+
+
 }

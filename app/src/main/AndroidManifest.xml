@@ -31,6 +31,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ogdev.popularmovies.activities.MainActivity" />
         </activity>
+
+        <activity android:name=".activities.MovieDetailActivity" />
     </application>
 
 </manifest>

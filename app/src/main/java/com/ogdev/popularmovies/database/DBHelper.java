@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.ogdev.popularmovies.database.DBContract.MovieColumns;
+import com.ogdev.popularmovies.database.DBContract.VideoColumns;
+import com.ogdev.popularmovies.database.DBContract.ReviewColumns;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -20,17 +22,44 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_MOVIE_TABLE =
             "CREATE TABLE " + MovieColumns.TABLE_NAME + " ("
-            + MovieColumns._ID + " INTEGER PRIMARY KEY " + COMMA_SEP
-            + MovieColumns.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP
-            + MovieColumns.COLUMN_NAME_OVERVIEW + TEXT_TYPE + COMMA_SEP
-            + MovieColumns.COLUMN_NAME_POSTER_PATH + TEXT_TYPE + COMMA_SEP
-            + MovieColumns.COLUMN_NAME_BACKDROP_PATH + TEXT_TYPE + COMMA_SEP
-            + MovieColumns.COLUMN_NAME_VOTE_AVERAGE + REAL_TYPE + COMMA_SEP
-            + MovieColumns.COLUMN_NAME_VOTE_COUNT + REAL_TYPE + COMMA_SEP
-            + MovieColumns.COLUMN_NAME_RELEASE_DATE + TEXT_TYPE + COMMA_SEP
-            + MovieColumns.COLUMN_NAME_POPULARITY + REAL_TYPE + COMMA_SEP
-            + MovieColumns.COLUMN_NAME_FAVORITE + INT_TYPE
-            + ")";
+                    + MovieColumns._ID + " INTEGER PRIMARY KEY " + COMMA_SEP
+                    + MovieColumns.COLUMN_NAME_MOVIE_ID + INT_TYPE + COMMA_SEP
+                    + MovieColumns.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP
+                    + MovieColumns.COLUMN_NAME_OVERVIEW + TEXT_TYPE + COMMA_SEP
+                    + MovieColumns.COLUMN_NAME_POSTER_PATH + TEXT_TYPE + COMMA_SEP
+                    + MovieColumns.COLUMN_NAME_BACKDROP_PATH + TEXT_TYPE + COMMA_SEP
+                    + MovieColumns.COLUMN_NAME_VOTE_AVERAGE + REAL_TYPE + COMMA_SEP
+                    + MovieColumns.COLUMN_NAME_VOTE_COUNT + REAL_TYPE + COMMA_SEP
+                    + MovieColumns.COLUMN_NAME_RELEASE_DATE + TEXT_TYPE + COMMA_SEP
+                    + MovieColumns.COLUMN_NAME_POPULARITY + REAL_TYPE + COMMA_SEP
+                    + MovieColumns.COLUMN_NAME_FAVORITE + INT_TYPE
+                    + ")";
+
+    private static final String SQL_CREATE_VIDEO_TABLE =
+            "CREATE TABLE " + VideoColumns.TABLE_NAME + " ("
+                    + VideoColumns._ID + " INTEGER PRIMARY KEY " + COMMA_SEP
+                    + VideoColumns.COLUMN_NAME_ISO6391 + TEXT_TYPE + COMMA_SEP
+                    + VideoColumns.COLUMN_NAME_ISO31661 + TEXT_TYPE + COMMA_SEP
+                    + VideoColumns.COLUMN_NAME_KEY + TEXT_TYPE + COMMA_SEP
+                    + VideoColumns.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP
+                    + VideoColumns.COLUMN_NAME_SITE + TEXT_TYPE + COMMA_SEP
+                    + VideoColumns.COLUMN_NAME_SIZE + INT_TYPE + COMMA_SEP
+                    + VideoColumns.COLUMN_NAME_TYPE + TEXT_TYPE + COMMA_SEP
+                    + VideoColumns.COLUMN_NAME_MOVIE_ID + INT_TYPE + COMMA_SEP
+                    + " FOREIGN KEY (" + VideoColumns.COLUMN_NAME_MOVIE_ID +  ") REFERENCES "
+                    + MovieColumns.TABLE_NAME + " (" + MovieColumns.COLUMN_NAME_MOVIE_ID + ")"
+                    + ")";
+
+    private static final String SQL_CREATE_REVIEW_TABLE =
+            "CREATE TABLE " + ReviewColumns.TABLE_NAME + " ("
+                    + ReviewColumns._ID + " INTEGER PRIMARY KEY " + COMMA_SEP
+                    + ReviewColumns.COLUMN_NAME_AUTHOR + TEXT_TYPE + COMMA_SEP
+                    + ReviewColumns.COLUMN_NAME_CONTENT + TEXT_TYPE + COMMA_SEP
+                    + ReviewColumns.COLUMN_NAME_URL + TEXT_TYPE + COMMA_SEP
+                    + ReviewColumns.COLUMN_NAME_MOVIE_ID + INT_TYPE + COMMA_SEP
+                    + " FOREIGN KEY (" + ReviewColumns.COLUMN_NAME_MOVIE_ID +  ") REFERENCES "
+                    + MovieColumns.TABLE_NAME + " (" + MovieColumns.COLUMN_NAME_MOVIE_ID + ")"
+                    + ")";
 
 
     public DBHelper(Context context) {
@@ -40,6 +69,8 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQL_CREATE_MOVIE_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_VIDEO_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_REVIEW_TABLE);
     }
 
     @Override

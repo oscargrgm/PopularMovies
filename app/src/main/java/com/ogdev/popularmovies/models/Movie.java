@@ -20,6 +20,7 @@ public class Movie implements Parcelable {
     };
 
     private static final String KEY_ID = "id";
+    private static final String KEY_MOVIE_ID = "id";
     private static final String KEY_TITLE = "title";
     private static final String KEY_OVERVIEW = "overview";
     private static final String KEY_POSTER = "poster_path";
@@ -31,6 +32,7 @@ public class Movie implements Parcelable {
     private static final String KEY_FAVORITE = "favorite";
 
     private int id;
+    private int movieId;
     private String title;
     private String overview;
     private String releaseDate;
@@ -45,7 +47,8 @@ public class Movie implements Parcelable {
 
     }
 
-    public Movie(int id, String title, String overview, String releaseDate, String posterPath, String backdropPath, double voteAverage, long voteCount, float popularity, int favorite) {
+    public Movie(int id, int movieId, String title, String overview, String releaseDate, String posterPath, String backdropPath, double voteAverage, long voteCount, float popularity, int favorite) {
+        this.setMovieId(movieId);
         this.setId(id);
         this.setTitle(title);
         this.setOverview(overview);
@@ -60,6 +63,7 @@ public class Movie implements Parcelable {
 
     private Movie(Parcel in) {
         this.id = in.readInt();
+        this.movieId = in.readInt();
         this.title = in.readString();
         this.overview = in.readString();
         this.releaseDate = in.readString();
@@ -72,8 +76,8 @@ public class Movie implements Parcelable {
     }
 
     public static Movie deserialize(JSONObject movieJsonObject) throws JSONException {
-
         int id = movieJsonObject.getInt(getKeyId());
+        int movieId = movieJsonObject.getInt(getKeyMovieId());
         String title = movieJsonObject.getString(getKeyTitle());
         String overview = movieJsonObject.getString(getKeyOverview());
         String release_date = movieJsonObject.getString(getKeyReleaseDate());
@@ -82,12 +86,14 @@ public class Movie implements Parcelable {
         double vote_average = movieJsonObject.getDouble(getKeyVoteAverage());
         long vote_count = movieJsonObject.getLong(getKeyVoteCount());
         float popularity = movieJsonObject.getLong(getKeyPopularity());
-        return new Movie(id, title, overview, release_date, poster_path, backdrop_path, vote_average, vote_count, popularity, 0);
+        return new Movie(id, movieId, title, overview, release_date, poster_path, backdrop_path, vote_average, vote_count, popularity, 0);
     }
 
     public static String getKeyId() {
         return KEY_ID;
     }
+
+    public static String getKeyMovieId() {return KEY_MOVIE_ID; }
 
     public static String getKeyTitle() {
         return KEY_TITLE;
@@ -131,6 +137,14 @@ public class Movie implements Parcelable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
     public String getTitle() {
@@ -213,6 +227,7 @@ public class Movie implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
+        dest.writeInt(this.movieId);
         dest.writeString(this.title);
         dest.writeString(this.overview);
         dest.writeString(this.releaseDate);

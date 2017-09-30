@@ -18,6 +18,12 @@ public class DBContentProvider extends ContentProvider {
     private static final int MOVIE = 100;
     private static final int MOVIE_ID = 101;
 
+    private static final int VIDEO = 200;
+    private static final int VIDEO_ID = 201;
+
+    private static final int REVIEW = 300;
+    private static final int REVIEW_ID = 301;
+
     public static final String CONTENT_AUTHORITY = "com.ogdev.popularmovies";
 
     private SQLiteOpenHelper mDBHelper;
@@ -29,6 +35,12 @@ public class DBContentProvider extends ContentProvider {
 
         sUriMatcher.addURI(CONTENT_AUTHORITY, DBContract.PATH_MOVIE, MOVIE);
         sUriMatcher.addURI(CONTENT_AUTHORITY, DBContract.PATH_MOVIE + "/#", MOVIE_ID);
+
+        sUriMatcher.addURI(CONTENT_AUTHORITY, DBContract.PATH_VIDEO, VIDEO);
+        sUriMatcher.addURI(CONTENT_AUTHORITY, DBContract.PATH_VIDEO + "/#", VIDEO_ID);
+
+        sUriMatcher.addURI(CONTENT_AUTHORITY, DBContract.PATH_REVIEW, REVIEW);
+        sUriMatcher.addURI(CONTENT_AUTHORITY, DBContract.PATH_REVIEW + "/#", REVIEW_ID);
 
         return true;
     }
@@ -74,6 +86,10 @@ public class DBContentProvider extends ContentProvider {
         switch (args.uriMatch) {
             case MOVIE:
                 return DBContract.MovieEntry.buildMovieUri(String.valueOf(id));
+            case VIDEO:
+                return DBContract.VideoEntry.buildVideoUri(String.valueOf(id));
+            case REVIEW:
+                return DBContract.ReviewEntry.buildReviewUri(String.valueOf(id));
             default:
                 throw new UnsupportedOperationException("Unknown table for uri: " + uri);
         }
@@ -129,6 +145,28 @@ public class DBContentProvider extends ContentProvider {
                     res.where = DBContract.MovieColumns._ID + "=?";
                 if (res.args == null)
                     res.args = new String[] { DBContract.MovieEntry.getMovieId(uri) };
+                break;
+
+            case VIDEO:
+                res.table = DBContract.VideoColumns.TABLE_NAME;
+                break;
+            case VIDEO_ID:
+                res.table = DBContract.VideoColumns.TABLE_NAME;
+                if (res.where == null)
+                    res.where = DBContract.VideoColumns._ID + "=?";
+                if (res.args == null)
+                    res.args = new String[] { DBContract.VideoEntry.getVideoId(uri) };
+                break;
+
+            case REVIEW:
+                res.table = DBContract.ReviewColumns.TABLE_NAME;
+                break;
+            case REVIEW_ID:
+                res.table = DBContract.ReviewColumns.TABLE_NAME;
+                if (res.where == null)
+                    res.where = DBContract.ReviewColumns._ID + "=?";
+                if (res.args == null)
+                    res.args = new String[] { DBContract.ReviewEntry.getReviewId(uri) };
                 break;
         }
         return res;

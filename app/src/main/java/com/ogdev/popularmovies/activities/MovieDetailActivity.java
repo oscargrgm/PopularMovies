@@ -13,11 +13,18 @@ import com.bumptech.glide.Glide;
 import com.ogdev.popularmovies.R;
 import com.ogdev.popularmovies.adapters.MoviesAdapter;
 import com.ogdev.popularmovies.models.Movie;
+import com.ogdev.popularmovies.models.Review;
+import com.ogdev.popularmovies.models.Video;
+import com.ogdev.popularmovies.utilities.DatabaseUtilities;
+import com.ogdev.popularmovies.utilities.FetchReviewsTaskUtilities;
+import com.ogdev.popularmovies.utilities.FetchVideosTaskUtilities;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +44,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     @BindView(R.id.movie_detail_synopsis_textView)
     TextView mMovieSynopsis;
 
+    public static final String INFO_TYPE_VIDEOS = "videos";
+    public static final String INFO_TYPE_REVIEWS = "reviews";
+
     private Movie mMovie;
 
     @Override
@@ -50,6 +60,8 @@ public class MovieDetailActivity extends AppCompatActivity {
             mMovie = mBundle.getParcelable(MoviesAdapter.EXTRA_MOVIE_ID);
             initToolbar();
             initView();
+        } else {
+            finish();
         }
     }
 
@@ -96,6 +108,4 @@ public class MovieDetailActivity extends AppCompatActivity {
         mMovieRating.setText(String.valueOf(mMovie.getVoteAverage()).substring(0, 3));
         mMovieSynopsis.setText(mMovie.getOverview());
     }
-
-
 }

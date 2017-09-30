@@ -31,25 +31,42 @@ public class NetworkUtilities {
     public static boolean isConnected(Context context) {
         ConnectivityManager mManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (mManager == null) {
+            return false;
+        }
         NetworkInfo mNetworkInfo = mManager.getActiveNetworkInfo();
-
         return mNetworkInfo != null && mNetworkInfo.isConnected();
     }
 
     public static URL buildURL(String order) {
-        Uri mUri = Uri.parse(BASE_URL).buildUpon()
+        Uri uri = Uri.parse(BASE_URL).buildUpon()
                 .appendPath(order)
                 .appendQueryParameter(PARAM_API_KEY, API_KEY)
                 .build();
 
-        URL mURL = null;
+        URL url = null;
         try {
-            mURL = new URL(mUri.toString());
+            url = new URL(uri.toString());
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
         }
 
-        return mURL;
+        return url;
+    }
+
+    public static URL buildInformationURL(int movieId, String informationType) {
+        Uri uri = Uri.parse(BASE_URL).buildUpon()
+                .appendPath(String.valueOf(movieId))
+                .appendPath(informationType)
+                .appendQueryParameter(PARAM_API_KEY, API_KEY)
+                .build();
+        URL url = null;
+        try {
+            url = new URL(uri.toString());
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        }
+        return url;
     }
 
     public static String getResponseFromHttpsUrl(Context context, URL url) throws IOException {

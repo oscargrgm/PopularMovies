@@ -15,8 +15,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ogdev.popularmovies.R;
 import com.ogdev.popularmovies.activities.MovieDetailActivity;
 import com.ogdev.popularmovies.models.Movie;
+import com.ogdev.popularmovies.models.Review;
+import com.ogdev.popularmovies.models.Video;
+import com.ogdev.popularmovies.utilities.DatabaseUtilities;
+import com.ogdev.popularmovies.utilities.FetchReviewsTaskUtilities;
+import com.ogdev.popularmovies.utilities.FetchVideosTaskUtilities;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,9 +86,45 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
         @OnClick(R.id.card_movie)
         public void onClick() {
+            int movieId = mMovies.get(getAdapterPosition()).getMovieId();
+            getVideos(movieId);
+            getReviews(movieId);
+
             Intent detailIntent = new Intent(mContext, MovieDetailActivity.class);
             detailIntent.putExtra(EXTRA_MOVIE_ID, mMovies.get(getAdapterPosition()));
             mContext.startActivity(detailIntent);
+        }
+
+        private void getVideos(int movieId) {
+            if (DatabaseUtilities.getVideosFromMovie(mContext, movieId).isEmpty()) {
+                FetchVideosTaskUtilities videosTask = new FetchVideosTaskUtilities(mContext, movieId);
+                ArrayList<Video> videos = new ArrayList<>();
+                try {
+                    videos = videosTask.execute().get();
+                } catch (InterruptedException | ExecutionException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    if (!videos.isEmpty()) {
+                        DatabaseUtilities.addVideosToDatabase(mContext, videos);
+                    }
+                }
+            }
+        }
+
+        private void getReviews(int movieId) {
+            if (DatabaseUtilities.getReviewsFromMovie(mContext, movieId).isEmpty()) {
+                FetchReviewsTaskUtilities reviewsTask = new FetchReviewsTaskUtilities(mContext, movieId);
+                ArrayList<Review> reviews = new ArrayList<>();
+                try {
+                    reviews = reviewsTask.execute().get();
+                } catch (InterruptedException | ExecutionException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    if (!reviews.isEmpty()) {
+                        DatabaseUtilities.addReviewsToDatabase(mContext, reviews);
+                    }
+                }
+            }
         }
     }
 }

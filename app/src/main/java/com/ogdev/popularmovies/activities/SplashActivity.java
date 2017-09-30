@@ -41,9 +41,6 @@ public class SplashActivity extends AppCompatActivity {
             } finally {
                 if (!mMovies.isEmpty()) {
                     DatabaseUtilities.addMoviesToDatabase(this, mMovies);
-//                    for (Movie mMovie : mMovies) {
-//                        DatabaseUtilities.addMovieToDatabase(this, mMovie);
-//                    }
                 }
                 startMainActivity();
             }

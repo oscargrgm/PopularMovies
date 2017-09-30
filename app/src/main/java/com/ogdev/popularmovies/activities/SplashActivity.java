@@ -40,9 +40,10 @@ public class SplashActivity extends AppCompatActivity {
                 ex.printStackTrace();
             } finally {
                 if (!mMovies.isEmpty()) {
-                    for (Movie mMovie : mMovies) {
-                        DatabaseUtilities.addMovieToContentProvider(this, mMovie);
-                    }
+                    DatabaseUtilities.addMoviesToDatabase(this, mMovies);
+//                    for (Movie mMovie : mMovies) {
+//                        DatabaseUtilities.addMovieToDatabase(this, mMovie);
+//                    }
                 }
                 startMainActivity();
             }

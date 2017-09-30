@@ -18,6 +18,7 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
     private static final String KEY_ID = "id";
     private static final String KEY_TITLE = "title";
     private static final String KEY_OVERVIEW = "overview";
@@ -27,8 +28,9 @@ public class Movie implements Parcelable {
     private static final String KEY_VOTE_COUNT = "vote_count";
     private static final String KEY_RELEASE_DATE = "release_date";
     private static final String KEY_POPULARITY = "popularity";
+    private static final String KEY_FAVORITE = "favorite";
 
-    private long id;
+    private int id;
     private String title;
     private String overview;
     private String releaseDate;
@@ -37,8 +39,13 @@ public class Movie implements Parcelable {
     private double voteAverage;
     private long voteCount;
     private float popularity;
+    private int favorite;
 
-    public Movie(long id, String title, String overview, String releaseDate, String posterPath, String backdropPath, double voteAverage, long voteCount, float popularity) {
+    public Movie() {
+
+    }
+
+    public Movie(int id, String title, String overview, String releaseDate, String posterPath, String backdropPath, double voteAverage, long voteCount, float popularity, int favorite) {
         this.setId(id);
         this.setTitle(title);
         this.setOverview(overview);
@@ -48,10 +55,11 @@ public class Movie implements Parcelable {
         this.setVoteAverage(voteAverage);
         this.setVoteCount(voteCount);
         this.setPopularity(popularity);
+        this.setFavorite(favorite);
     }
 
     private Movie(Parcel in) {
-        this.id = in.readLong();
+        this.id = in.readInt();
         this.title = in.readString();
         this.overview = in.readString();
         this.releaseDate = in.readString();
@@ -60,11 +68,12 @@ public class Movie implements Parcelable {
         this.voteAverage = in.readDouble();
         this.voteCount = in.readLong();
         this.popularity = in.readFloat();
+        this.favorite = in.readInt();
     }
 
     public static Movie deserialize(JSONObject movieJsonObject) throws JSONException {
 
-        Long id = movieJsonObject.getLong(getKeyId());
+        int id = movieJsonObject.getInt(getKeyId());
         String title = movieJsonObject.getString(getKeyTitle());
         String overview = movieJsonObject.getString(getKeyOverview());
         String release_date = movieJsonObject.getString(getKeyReleaseDate());
@@ -73,8 +82,7 @@ public class Movie implements Parcelable {
         double vote_average = movieJsonObject.getDouble(getKeyVoteAverage());
         long vote_count = movieJsonObject.getLong(getKeyVoteCount());
         float popularity = movieJsonObject.getLong(getKeyPopularity());
-
-        return new Movie(id, title, overview, release_date, poster_path, backdrop_path, vote_average, vote_count, popularity);
+        return new Movie(id, title, overview, release_date, poster_path, backdrop_path, vote_average, vote_count, popularity, 0);
     }
 
     public static String getKeyId() {
@@ -113,11 +121,15 @@ public class Movie implements Parcelable {
         return KEY_POPULARITY;
     }
 
-    public long getId() {
+    public static String getKeyFavorite() {
+        return KEY_FAVORITE;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -185,6 +197,14 @@ public class Movie implements Parcelable {
         this.popularity = popularity;
     }
 
+    public int getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(int favorite) {
+        this.favorite = favorite;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -192,7 +212,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
+        dest.writeInt(this.id);
         dest.writeString(this.title);
         dest.writeString(this.overview);
         dest.writeString(this.releaseDate);
@@ -201,6 +221,7 @@ public class Movie implements Parcelable {
         dest.writeDouble(this.voteAverage);
         dest.writeLong(this.voteCount);
         dest.writeFloat(this.popularity);
+        dest.writeInt(this.favorite);
     }
 
     public Uri getPosterURI(String size, String type) {

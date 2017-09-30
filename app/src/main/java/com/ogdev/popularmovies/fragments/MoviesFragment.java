@@ -27,15 +27,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MoviesFragment extends Fragment {
 
     private static final int COLUMNS_DIVIDER_WITH = 400;
 
-    @BindView(R.id.movies_recyclerView)
-    RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
     private ArrayList<Movie> mMovies;
 
@@ -55,6 +52,7 @@ public class MoviesFragment extends Fragment {
             view = inflater.inflate(R.layout.fragment_movies, container, false);
             ButterKnife.bind(this, view);
 
+            RecyclerView mRecyclerView = view.findViewById(R.id.movies_recyclerView);
             mRecyclerView.setHasFixedSize(true);
 
             if (getSortOrder() == 1) {

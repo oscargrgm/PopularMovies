@@ -14,8 +14,8 @@
         android:theme="@style/AppTheme">
 
         <provider
-            android:name="com.ogdev.popularmovies.provider.MovieProvider"
-            android:authorities="com.ogdev.popularmovies.provider"
+            android:name="com.ogdev.popularmovies.database.DBContentProvider"
+            android:authorities="com.ogdev.popularmovies"
             android:exported="false" />
 
         <activity android:name=".activities.SplashActivity">

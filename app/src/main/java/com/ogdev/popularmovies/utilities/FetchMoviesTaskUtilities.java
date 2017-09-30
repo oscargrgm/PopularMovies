@@ -38,7 +38,6 @@ public class FetchMoviesTaskUtilities extends AsyncTask<Void, Void, ArrayList<Mo
                 for (int i = 0 ; i < mBillboardArray.length() ; i++) {
                     JSONObject mMovieJson = mBillboardArray.getJSONObject(i);
                     Movie mMovie = Movie.deserialize(mMovieJson);
-//                      DatabaseUtilities.addMovieToContentProvider(getActivity(), mMovie);
                     mMovies.add(mMovie);
                 }
             }

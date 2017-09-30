@@ -83,16 +83,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
             Intent detailIntent = new Intent(mContext, MovieDetailActivity.class);
             detailIntent.putExtra(EXTRA_MOVIE_ID, mMovies.get(getAdapterPosition()));
             mContext.startActivity(detailIntent);
-
-//            Fragment mFragment = new MovieDetailFragment();
-//            Bundle mBundle = new Bundle();
-//            mBundle.putParcelable(EXTRA_MOVIE_ID, mMovies.get(getAdapterPosition()));
-//            mFragment.setArguments(mBundle);
-
-//            mFragmentManager.beginTransaction()
-//                    .add(R.id.activity_main_frameLayout, mFragment, mFragment.getClass().getSimpleName())
-//                    .addToBackStack(mFragment.getClass().getSimpleName())
-//                    .commit();
         }
     }
 }

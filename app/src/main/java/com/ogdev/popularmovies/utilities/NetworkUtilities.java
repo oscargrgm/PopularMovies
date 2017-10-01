@@ -98,7 +98,6 @@ public class NetworkUtilities {
                 throw new IOException();
         }
         urlConnection.disconnect();
-
         return response;
     }
 }

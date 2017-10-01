@@ -103,7 +103,7 @@ public class MoviesFragment extends Fragment {
         mMovies.clear();
         switch (item.getItemId()) {
             case R.id.ic_menu_popular:
-                mMovies = DatabaseUtilities.getMoviesFromDatabase(getContext());
+                mMovies = DatabaseUtilities.getMoviesFromDatabase(getContext(), SplashActivity.ORDER_POPULAR);
                 if (!mMovies.isEmpty()) {
                     mAdapter.updateData(mMovies);
                 } else {
@@ -111,7 +111,12 @@ public class MoviesFragment extends Fragment {
                 }
                 return true;
             case R.id.ic_menu_top_rated:
-                fetchMoviesAndUpdateList(SplashActivity.ORDER_TOP_RATED, 2);
+                mMovies = DatabaseUtilities.getMoviesFromDatabase(getContext(), SplashActivity.ORDER_TOP_RATED);
+                if (!mMovies.isEmpty()) {
+                    mAdapter.updateData(mMovies);
+                } else {
+                    fetchMoviesAndUpdateList(SplashActivity.ORDER_TOP_RATED, 2);
+                }
                 return true;
         }
 
@@ -126,6 +131,7 @@ public class MoviesFragment extends Fragment {
             ex.printStackTrace();
         } finally {
             if (!mMovies.isEmpty()) {
+                DatabaseUtilities.addMoviesToDatabase(getContext(), order, mMovies);
                 Collections.sort(mMovies, new RatingSorter());
                 setSortOrder(orderValue);
                 mAdapter.updateData(mMovies);

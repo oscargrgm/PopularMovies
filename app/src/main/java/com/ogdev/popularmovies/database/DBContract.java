@@ -26,6 +26,7 @@ public class DBContract {
         String COLUMN_NAME_RELEASE_DATE = "release_date";
         String COLUMN_NAME_POPULARITY = "popularity";
         String COLUMN_NAME_FAVORITE = "favorite";
+        String COLUMN_NAME_SOURCE = "source";
     }
 
     public interface VideoColumns extends BaseColumns {

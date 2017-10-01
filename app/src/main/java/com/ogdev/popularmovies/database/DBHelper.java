@@ -32,7 +32,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     + MovieColumns.COLUMN_NAME_VOTE_COUNT + REAL_TYPE + COMMA_SEP
                     + MovieColumns.COLUMN_NAME_RELEASE_DATE + TEXT_TYPE + COMMA_SEP
                     + MovieColumns.COLUMN_NAME_POPULARITY + REAL_TYPE + COMMA_SEP
-                    + MovieColumns.COLUMN_NAME_FAVORITE + INT_TYPE
+                    + MovieColumns.COLUMN_NAME_FAVORITE + INT_TYPE + COMMA_SEP
+                    + MovieColumns.COLUMN_NAME_SOURCE + TEXT_TYPE
                     + ")";
 
     private static final String SQL_CREATE_VIDEO_TABLE =

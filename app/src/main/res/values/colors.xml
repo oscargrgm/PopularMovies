@@ -6,6 +6,8 @@
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="light_grey">#e6e6e6</color>
 
     <color name="text_color">@color/black</color>
+    <color name="divider_color">@color/light_grey</color>
 </resources>

@@ -31,7 +31,7 @@ import butterknife.OnClick;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
     private final String LOG_TAG = MoviesAdapter.class.getSimpleName();
-    public static final String EXTRA_MOVIE_ID = "EXTRA_MOVIE_ID";
+    public static final String EXTRA_MOVIE_KEY = "EXTRA_MOVIE_KEY";
     private final Context mContext;
     private ArrayList<Movie> mMovies;
     private final FragmentManager mFragmentManager;
@@ -87,15 +87,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         @OnClick(R.id.card_movie)
         public void onClick() {
             int movieId = mMovies.get(getAdapterPosition()).getMovieId();
-            getVideos(movieId);
-            getReviews(movieId);
+            fetchVideosFromMovie(movieId);
+            fetchReviewsFromMovie(movieId);
 
             Intent detailIntent = new Intent(mContext, MovieDetailActivity.class);
-            detailIntent.putExtra(EXTRA_MOVIE_ID, mMovies.get(getAdapterPosition()));
+            detailIntent.putExtra(EXTRA_MOVIE_KEY, mMovies.get(getAdapterPosition()));
             mContext.startActivity(detailIntent);
         }
 
-        private void getVideos(int movieId) {
+        private void fetchVideosFromMovie(int movieId) {
             if (DatabaseUtilities.getVideosFromMovie(mContext, movieId).isEmpty()) {
                 FetchVideosTaskUtilities videosTask = new FetchVideosTaskUtilities(mContext, movieId);
                 ArrayList<Video> videos = new ArrayList<>();
@@ -111,7 +111,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
             }
         }
 
-        private void getReviews(int movieId) {
+        private void fetchReviewsFromMovie(int movieId) {
             if (DatabaseUtilities.getReviewsFromMovie(mContext, movieId).isEmpty()) {
                 FetchReviewsTaskUtilities reviewsTask = new FetchReviewsTaskUtilities(mContext, movieId);
                 ArrayList<Review> reviews = new ArrayList<>();

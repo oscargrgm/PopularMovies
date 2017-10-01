@@ -1,30 +1,36 @@
 package com.ogdev.popularmovies.activities;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ogdev.popularmovies.R;
 import com.ogdev.popularmovies.adapters.MoviesAdapter;
+import com.ogdev.popularmovies.adapters.ReviewsAdapter;
+import com.ogdev.popularmovies.adapters.VideosAdapter;
 import com.ogdev.popularmovies.models.Movie;
 import com.ogdev.popularmovies.models.Review;
 import com.ogdev.popularmovies.models.Video;
 import com.ogdev.popularmovies.utilities.DatabaseUtilities;
-import com.ogdev.popularmovies.utilities.FetchReviewsTaskUtilities;
-import com.ogdev.popularmovies.utilities.FetchVideosTaskUtilities;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +50,22 @@ public class MovieDetailActivity extends AppCompatActivity {
     @BindView(R.id.movie_detail_synopsis_textView)
     TextView mMovieSynopsis;
 
+    @BindView(R.id.movie_detail_reviews)
+    LinearLayout mReviewsLayout;
+    @BindView(R.id.reviews_layout_title)
+    TextView mReviewsTextView;
+    @BindView(R.id.reviews_layout_recyclerView)
+    RecyclerView mReviewsRecyclerView;
+
+    @BindView(R.id.movie_detail_videos)
+    LinearLayout mVideosLayout;
+    @BindView(R.id.videos_layout_title)
+    TextView mVideosTextView;
+    @BindView(R.id.videos_layout_recyclerView)
+    RecyclerView mVideosRecyclerView;
+
+    private static final int COLUMNS_DIVIDER_WITH = 400;
+
     public static final String INFO_TYPE_VIDEOS = "videos";
     public static final String INFO_TYPE_REVIEWS = "reviews";
 
@@ -57,12 +79,19 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         Bundle mBundle = getIntent().getExtras();
         if (mBundle != null) {
-            mMovie = mBundle.getParcelable(MoviesAdapter.EXTRA_MOVIE_ID);
+            mMovie = mBundle.getParcelable(MoviesAdapter.EXTRA_MOVIE_KEY);
             initToolbar();
             initView();
+            fetchReviewsAndDisplay();
+            fetchVideosAndDisplay();
         } else {
             finish();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     @Override
@@ -107,5 +136,47 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mMovieRating.setText(String.valueOf(mMovie.getVoteAverage()).substring(0, 3));
         mMovieSynopsis.setText(mMovie.getOverview());
+    }
+
+    private void fetchReviewsAndDisplay() {
+        ArrayList<Review> reviews = DatabaseUtilities.getReviewsFromMovie(this, mMovie.getMovieId());
+        if (!reviews.isEmpty()) {
+            ReviewsAdapter reviewsAdapter = new ReviewsAdapter(this, reviews);
+            mReviewsRecyclerView.setAdapter(reviewsAdapter);
+            GridLayoutManager mLayoutManager =
+                    new GridLayoutManager(this, getNumberOfColumns());
+
+            mReviewsRecyclerView.setLayoutManager(mLayoutManager);
+
+            mReviewsLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void fetchVideosAndDisplay() {
+        ArrayList<Video> videos = DatabaseUtilities.getVideosFromMovie(this, mMovie.getMovieId());
+        if (!videos.isEmpty()) {
+            VideosAdapter videosAdapter = new VideosAdapter(this, videos);
+            mVideosRecyclerView.setHasFixedSize(true);
+            mVideosRecyclerView.setAdapter(videosAdapter);
+
+            GridLayoutManager mLayoutManager =
+                    new GridLayoutManager(this, getNumberOfColumns());
+
+            mVideosRecyclerView.setLayoutManager(mLayoutManager);
+
+            mVideosLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private int getNumberOfColumns() {
+        DisplayMetrics mMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+
+        int mWidth = mMetrics.widthPixels;
+        int mColumns = mWidth / COLUMNS_DIVIDER_WITH;
+        if (mColumns < 2) {
+            return 2;
+        }
+        return mColumns;
     }
 }

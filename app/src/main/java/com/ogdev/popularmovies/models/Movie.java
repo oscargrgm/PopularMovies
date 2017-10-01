@@ -29,6 +29,7 @@ public class Movie implements Parcelable {
     private static final String KEY_RELEASE_DATE = "release_date";
     private static final String KEY_POPULARITY = "popularity";
     private static final String KEY_FAVORITE = "favorite";
+    private static final String KEY_SOURCE = "source";
 
     private int id;
     private int movieId;
@@ -41,6 +42,7 @@ public class Movie implements Parcelable {
     private long voteCount;
     private float popularity;
     private int favorite;
+    private String source;
 
     public Movie() {
 
@@ -59,7 +61,7 @@ public class Movie implements Parcelable {
         this.setFavorite(favorite);
     }
 
-    public Movie(int id, int movieId, String title, String overview, String releaseDate, String posterPath, String backdropPath, double voteAverage, long voteCount, float popularity, int favorite) {
+    public Movie(int id, int movieId, String title, String overview, String releaseDate, String posterPath, String backdropPath, double voteAverage, long voteCount, float popularity, int favorite, String source) {
         this.setId(id);
         this.setMovieId(movieId);
         this.setTitle(title);
@@ -71,6 +73,7 @@ public class Movie implements Parcelable {
         this.setVoteCount(voteCount);
         this.setPopularity(popularity);
         this.setFavorite(favorite);
+        this.setSource(source);
     }
 
     private Movie(Parcel in) {
@@ -85,6 +88,7 @@ public class Movie implements Parcelable {
         this.voteCount = in.readLong();
         this.popularity = in.readFloat();
         this.favorite = in.readInt();
+        this.source = in.readString();
     }
 
     public static Movie deserialize(JSONObject movieJsonObject) throws JSONException {
@@ -137,6 +141,8 @@ public class Movie implements Parcelable {
     public static String getKeyFavorite() {
         return KEY_FAVORITE;
     }
+
+    public static String getKeySource() { return KEY_SOURCE; }
 
     public int getId() {
         return id;
@@ -226,6 +232,14 @@ public class Movie implements Parcelable {
         this.favorite = favorite;
     }
 
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -244,6 +258,7 @@ public class Movie implements Parcelable {
         dest.writeLong(this.voteCount);
         dest.writeFloat(this.popularity);
         dest.writeInt(this.favorite);
+        dest.writeString(this.source);
     }
 
     public Uri getPosterURI(String size, String type) {

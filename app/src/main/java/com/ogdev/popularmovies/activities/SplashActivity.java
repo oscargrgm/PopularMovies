@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
                 ex.printStackTrace();
             } finally {
                 if (!mMovies.isEmpty()) {
-                    DatabaseUtilities.addMoviesToDatabase(this, mMovies);
+                    DatabaseUtilities.addMoviesToDatabase(this, ORDER_POPULAR, mMovies);
                 }
                 startMainActivity();
             }

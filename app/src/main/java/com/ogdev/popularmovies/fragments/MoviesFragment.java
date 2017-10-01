@@ -100,11 +100,15 @@ public class MoviesFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        mMovies = DatabaseUtilities.getMoviesFromDatabase(getContext());
         mMovies.clear();
         switch (item.getItemId()) {
             case R.id.ic_menu_popular:
-                fetchMoviesAndUpdateList(SplashActivity.ORDER_POPULAR, 1);
+                mMovies = DatabaseUtilities.getMoviesFromDatabase(getContext());
+                if (!mMovies.isEmpty()) {
+                    mAdapter.updateData(mMovies);
+                } else {
+                    fetchMoviesAndUpdateList(SplashActivity.ORDER_POPULAR, 1);
+                }
                 return true;
             case R.id.ic_menu_top_rated:
                 fetchMoviesAndUpdateList(SplashActivity.ORDER_TOP_RATED, 2);

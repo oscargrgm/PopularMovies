@@ -19,7 +19,6 @@ public class Movie implements Parcelable {
         }
     };
 
-    private static final String KEY_ID = "id";
     private static final String KEY_MOVIE_ID = "id";
     private static final String KEY_TITLE = "title";
     private static final String KEY_OVERVIEW = "overview";
@@ -47,9 +46,22 @@ public class Movie implements Parcelable {
 
     }
 
-    public Movie(int id, int movieId, String title, String overview, String releaseDate, String posterPath, String backdropPath, double voteAverage, long voteCount, float popularity, int favorite) {
+    public Movie(int movieId, String title, String overview, String releaseDate, String posterPath, String backdropPath, double voteAverage, long voteCount, float popularity, int favorite) {
         this.setMovieId(movieId);
+        this.setTitle(title);
+        this.setOverview(overview);
+        this.setReleaseDate(releaseDate);
+        this.setPosterPath(posterPath);
+        this.setBackdropPath(backdropPath);
+        this.setVoteAverage(voteAverage);
+        this.setVoteCount(voteCount);
+        this.setPopularity(popularity);
+        this.setFavorite(favorite);
+    }
+
+    public Movie(int id, int movieId, String title, String overview, String releaseDate, String posterPath, String backdropPath, double voteAverage, long voteCount, float popularity, int favorite) {
         this.setId(id);
+        this.setMovieId(movieId);
         this.setTitle(title);
         this.setOverview(overview);
         this.setReleaseDate(releaseDate);
@@ -76,7 +88,6 @@ public class Movie implements Parcelable {
     }
 
     public static Movie deserialize(JSONObject movieJsonObject) throws JSONException {
-        int id = movieJsonObject.getInt(getKeyId());
         int movieId = movieJsonObject.getInt(getKeyMovieId());
         String title = movieJsonObject.getString(getKeyTitle());
         String overview = movieJsonObject.getString(getKeyOverview());
@@ -86,11 +97,7 @@ public class Movie implements Parcelable {
         double vote_average = movieJsonObject.getDouble(getKeyVoteAverage());
         long vote_count = movieJsonObject.getLong(getKeyVoteCount());
         float popularity = movieJsonObject.getLong(getKeyPopularity());
-        return new Movie(id, movieId, title, overview, release_date, poster_path, backdrop_path, vote_average, vote_count, popularity, 0);
-    }
-
-    public static String getKeyId() {
-        return KEY_ID;
+        return new Movie(movieId, title, overview, release_date, poster_path, backdrop_path, vote_average, vote_count, popularity, 0);
     }
 
     public static String getKeyMovieId() {return KEY_MOVIE_ID; }

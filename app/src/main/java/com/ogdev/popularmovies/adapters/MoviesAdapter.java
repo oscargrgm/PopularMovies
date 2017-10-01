@@ -31,7 +31,7 @@ import butterknife.OnClick;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
     private final String LOG_TAG = MoviesAdapter.class.getSimpleName();
-    public static final String EXTRA_MOVIE_KEY = "EXTRA_MOVIE_KEY";
+    public static final String EXTRA_MOVIE_ID = "EXTRA_MOVIE_ID";
     private final Context mContext;
     private ArrayList<Movie> mMovies;
     private final FragmentManager mFragmentManager;
@@ -91,7 +91,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
             fetchReviewsFromMovie(movieId);
 
             Intent detailIntent = new Intent(mContext, MovieDetailActivity.class);
-            detailIntent.putExtra(EXTRA_MOVIE_KEY, mMovies.get(getAdapterPosition()));
+            detailIntent.putExtra(EXTRA_MOVIE_ID, mMovies.get(getAdapterPosition()).getId());
             mContext.startActivity(detailIntent);
         }
 

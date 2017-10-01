@@ -51,6 +51,24 @@ public class DatabaseUtilities {
         context.getContentResolver().bulkInsert(ReviewEntry.CONTENT_URI, contentValuesArray);
     }
 
+    public static Movie getMovie(Context context, int id) {
+        Movie movie = new Movie();
+        Cursor cursor = context.getContentResolver().query(MovieEntry.CONTENT_URI,
+                null,
+                MovieColumns._ID + "=?",
+                new String[]{
+                    String.valueOf(id)
+                },
+                null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            movie = getMovieFromCursor(cursor);
+            cursor.close();
+        }
+        return movie;
+    }
+
     public static ArrayList<Movie> getMoviesFromDatabase(Context context) {
         ArrayList<Movie> movies = new ArrayList<>();
         Cursor cursor = context.getContentResolver().query(MovieEntry.CONTENT_URI,

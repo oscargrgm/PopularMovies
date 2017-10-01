@@ -1,6 +1,7 @@
 package com.ogdev.popularmovies.activities;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -69,6 +70,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     public static final String INFO_TYPE_VIDEOS = "videos";
     public static final String INFO_TYPE_REVIEWS = "reviews";
 
+    private int mId;
     private Movie mMovie;
 
     @Override
@@ -79,14 +81,20 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         Bundle mBundle = getIntent().getExtras();
         if (mBundle != null) {
-            mMovie = mBundle.getParcelable(MoviesAdapter.EXTRA_MOVIE_KEY);
-            initToolbar();
-            initView();
-            fetchReviewsAndDisplay();
-            fetchVideosAndDisplay();
+            mId = mBundle.getInt(MoviesAdapter.EXTRA_MOVIE_ID);
         } else {
             finish();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mMovie = DatabaseUtilities.getMovie(this, mId);
+        initToolbar();
+        initView();
+        fetchReviewsAndDisplay();
+        fetchVideosAndDisplay();
     }
 
     @Override
@@ -128,6 +136,11 @@ public class MovieDetailActivity extends AppCompatActivity {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     private void initToolbar() {

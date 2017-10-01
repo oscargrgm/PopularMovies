@@ -69,7 +69,7 @@ public class MoviesFragment extends Fragment {
                     break;
             }
 
-            mAdapter = new MoviesAdapter(getContext(), mMovies, getFragmentManager());
+            mAdapter = new MoviesAdapter(getContext(), mMovies);
             GridLayoutManager mLayoutManager =
                     new GridLayoutManager(getContext(), getNumberOfColumns());
 
@@ -166,7 +166,7 @@ public class MoviesFragment extends Fragment {
     }
 
     private void fetchMoviesAndUpdateList(String order) {
-        FetchMoviesTaskUtilities mTask = new FetchMoviesTaskUtilities(getContext(), order);
+        FetchMoviesTaskUtilities mTask = new FetchMoviesTaskUtilities(order);
         try {
             mMovies = mTask.execute().get();
         } catch (InterruptedException | ExecutionException ex) {

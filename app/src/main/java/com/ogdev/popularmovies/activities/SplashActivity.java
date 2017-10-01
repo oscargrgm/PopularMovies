@@ -32,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
         if (!DatabaseUtilities.getMoviesFromDatabase(getApplicationContext()).isEmpty()) {
             startMainActivity();
         } else if (NetworkUtilities.isConnected(this)) {
-            FetchMoviesTaskUtilities mTask = new FetchMoviesTaskUtilities(this, ORDER_POPULAR);
+            FetchMoviesTaskUtilities mTask = new FetchMoviesTaskUtilities(ORDER_POPULAR);
             ArrayList<Movie> mMovies = new ArrayList<>();
             try {
                 mMovies = mTask.execute().get();

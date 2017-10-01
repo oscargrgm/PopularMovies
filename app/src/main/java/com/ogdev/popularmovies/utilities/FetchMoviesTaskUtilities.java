@@ -1,6 +1,5 @@
 package com.ogdev.popularmovies.utilities;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.ogdev.popularmovies.models.Movie;
@@ -16,11 +15,9 @@ import java.util.ArrayList;
 public class FetchMoviesTaskUtilities extends AsyncTask<Void, Void, ArrayList<Movie>> {
 
     private static final String OBJECT_IDENTIFIER = "results";
-    private final Context mContext;
     private final String mOrder;
 
-    public FetchMoviesTaskUtilities(Context context, String order) {
-        this.mContext = context;
+    public FetchMoviesTaskUtilities(String order) {
         this.mOrder = order;
     }
 

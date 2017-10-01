@@ -50,8 +50,7 @@
                         android:layout_height="wrap_content"
                         tools:text="Pirates of the Caribbean: The Curse of the Black Pearl"
                         style="@style/AppTheme.TextStyle"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                        android:fontFamily="sans-serif-condensed"/>
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
                     <TextView
                         android:id="@+id/movie_detail_release_date_textView"
@@ -60,7 +59,6 @@
                         android:layout_marginTop="2dp"
                         style="@style/AppTheme.TextStyle"
                         android:textStyle="italic"
-                        android:fontFamily="sans-serif-condensed"
                         tools:text="(09/07/2003)" />
 
                     <TextView

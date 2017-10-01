@@ -170,7 +170,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         } catch (ParseException ex) {
             ex.printStackTrace();
         } finally {
-            mMovieReleaseDate.setText("(" + mReleaseDate + ")");
+            String releaseDateText = "(" + mReleaseDate + ")";
+            mMovieReleaseDate.setText(releaseDateText);
         }
 
         mMovieRating.setText(String.valueOf(mMovie.getVoteAverage()).substring(0, 3));

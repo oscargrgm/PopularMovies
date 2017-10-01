@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/videos_layout_title"
         android:text="@string/videos_layout_title"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/videos_layout_vertical_margin"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         style="@style/AppTheme.TextStyle"/>
 

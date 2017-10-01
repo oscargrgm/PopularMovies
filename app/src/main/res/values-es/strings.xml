@@ -9,6 +9,5 @@
     <string name="reviews_layout_title">Críticas</string>
     <string name="review_read_online">Leer online</string>
     <string name="videos_layout_title">Vídeos</string>
-    <string name="movie_detail_title">Título original</string>
     <string name="error_no_internet_connection">Parece que no hay conexión a Internet. Por favor, compruébalo e inténtalo de nuevo.</string>
 </resources>

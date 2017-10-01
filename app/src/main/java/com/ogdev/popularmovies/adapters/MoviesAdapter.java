@@ -2,7 +2,6 @@ package com.ogdev.popularmovies.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,12 +33,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     public static final String EXTRA_MOVIE_ID = "EXTRA_MOVIE_ID";
     private final Context mContext;
     private ArrayList<Movie> mMovies;
-    private final FragmentManager mFragmentManager;
 
-    public MoviesAdapter(Context context, ArrayList<Movie> movies, FragmentManager fragmentManager) {
+    public MoviesAdapter(Context context, ArrayList<Movie> movies) {
         mContext = context;
         mMovies = movies;
-        mFragmentManager = fragmentManager;
     }
 
     @Override

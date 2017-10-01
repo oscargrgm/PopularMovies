@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PopularMovies</string>
+    <string name="menu_title_popular">Populares</string>
+    <string name="menu_title_top_rated">Más votadas</string>
+    <string name="menu_title_favorites">Favoritas</string>
+    <string name="menu_title_favorite">Favorita</string>
+    <string name="menu_title_non_favorite">No favorita</string>
+    <string name="reviews_layout_title">Críticas</string>
+    <string name="review_read_online">Leer online</string>
+    <string name="videos_layout_title">Vídeos</string>
+    <string name="movie_detail_title">Título original</string>
+    <string name="error_no_internet_connection">Parece que no hay conexión a Internet. Por favor, compruébalo e inténtalo de nuevo.</string>
+</resources>

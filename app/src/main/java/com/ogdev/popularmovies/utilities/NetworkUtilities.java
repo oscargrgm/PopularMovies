@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 
 import com.ogdev.popularmovies.BuildConfig;
+import com.ogdev.popularmovies.activities.SplashActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,21 +70,16 @@ public class NetworkUtilities {
         return url;
     }
 
-    public static String getResponseFromHttpsUrl(Context context, URL url) throws IOException {
+    public static String getResponseFromHttpsUrl(URL url) throws IOException {
         String response = null;
 
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
-        long mLastModified = SharedPreferencesUtilities.getLastModified(context);
-        urlConnection.setIfModifiedSince(mLastModified); // 02/09/1992 02:00
         urlConnection.setConnectTimeout(CONNECTION_TIMEOUT_VALUE);
         urlConnection.setReadTimeout(READ_TIMEOUT_VALUE);
 
         int responseCode = urlConnection.getResponseCode();
         switch (responseCode) {
             case HttpURLConnection.HTTP_OK:
-                mLastModified = urlConnection.getLastModified();
-                SharedPreferencesUtilities.setLastModified(context, mLastModified);
-
                 InputStream in = urlConnection.getInputStream();
 
                 Scanner scanner = new Scanner(in);

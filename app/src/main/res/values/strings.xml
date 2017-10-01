@@ -4,6 +4,9 @@
     <string name="movie_title_hint">Movie title: The hint</string>
     <string name="menu_title_popular">Popular</string>
     <string name="menu_title_top_rated">Top rated</string>
+    <string name="menu_title_favorites">Favorites</string>
+    <string name="menu_title_favorite">Favorite</string>
+    <string name="menu_title_non_favorite">Non favorite</string>
 
     <string name="reviews_layout_title">Reviews</string>
     <string name="review_read_online">Read online</string>

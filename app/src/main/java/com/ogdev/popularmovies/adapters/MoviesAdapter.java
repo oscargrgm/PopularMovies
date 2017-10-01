@@ -97,7 +97,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
         private void fetchVideosFromMovie(int movieId) {
             if (DatabaseUtilities.getVideosFromMovie(mContext, movieId).isEmpty()) {
-                FetchVideosTaskUtilities videosTask = new FetchVideosTaskUtilities(mContext, movieId);
+                FetchVideosTaskUtilities videosTask = new FetchVideosTaskUtilities(movieId);
                 ArrayList<Video> videos = new ArrayList<>();
                 try {
                     videos = videosTask.execute().get();
@@ -113,7 +113,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
         private void fetchReviewsFromMovie(int movieId) {
             if (DatabaseUtilities.getReviewsFromMovie(mContext, movieId).isEmpty()) {
-                FetchReviewsTaskUtilities reviewsTask = new FetchReviewsTaskUtilities(mContext, movieId);
+                FetchReviewsTaskUtilities reviewsTask = new FetchReviewsTaskUtilities(movieId);
                 ArrayList<Review> reviews = new ArrayList<>();
                 try {
                     reviews = reviewsTask.execute().get();

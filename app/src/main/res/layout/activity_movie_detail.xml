@@ -51,8 +51,8 @@
                         tools:text="Pirates of the Caribbean: The Curse of the Black Pearl"
                         android:textAlignment="textStart"
                         android:layout_gravity="start"
-                        android:textSize="@dimen/movie_detail_title"
                         android:textColor="@color/text_color"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                         android:fontFamily="sans-serif-condensed"/>
 
                     <TextView
@@ -62,7 +62,6 @@
                         android:layout_marginTop="2dp"
                         android:textColor="@color/text_color"
                         android:textStyle="italic"
-                        android:textSize="@dimen/movie_detail_release_date"
                         android:fontFamily="sans-serif-condensed"
                         tools:text="(09/07/2003)" />
 
@@ -72,8 +71,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:fontFamily="sans-serif-condensed"
-                        android:textSize="@dimen/movie_detail_rating"
                         android:textColor="@color/text_color"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                         tools:text="4.8"
                         android:drawableStart="@drawable/ic_star"
                         android:drawableLeft="@drawable/ic_star"/>

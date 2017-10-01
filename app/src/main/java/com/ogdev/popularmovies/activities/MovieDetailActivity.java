@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -90,8 +92,19 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.movie_detail_menu, menu);
+
+        MenuItem favoriteItem = menu.findItem(R.id.ic_menu_favorite);
+        if (mMovie.getFavorite() == 1) {
+            favoriteItem.setIcon(R.drawable.ic_favorite_filled);
+            favoriteItem.setTitle(R.string.menu_title_non_favorite);
+        } else {
+            favoriteItem.setIcon(R.drawable.ic_favorite_empty);
+            favoriteItem.setTitle(R.string.menu_title_favorite);
+        }
+        return true;
     }
 
     @Override
@@ -99,6 +112,21 @@ public class MovieDetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                return true;
+            case R.id.ic_menu_favorite:
+                if (mMovie.getFavorite() == 1) {
+                    if (DatabaseUtilities.updateFavoriteField(this, mMovie.getId(), 0)) {
+                        mMovie.setFavorite(0);
+                        item.setTitle(R.string.menu_title_favorite);
+                        item.setIcon(R.drawable.ic_favorite_empty);
+                    }
+                } else {
+                    if (DatabaseUtilities.updateFavoriteField(this, mMovie.getId(), 1)) {
+                        mMovie.setFavorite(1);
+                        item.setTitle(R.string.menu_title_non_favorite);
+                        item.setIcon(R.drawable.ic_favorite_filled);
+                    }
+                }
                 return true;
         }
         return false;

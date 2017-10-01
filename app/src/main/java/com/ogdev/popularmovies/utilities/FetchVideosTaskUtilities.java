@@ -17,11 +17,9 @@ import java.util.ArrayList;
 public class FetchVideosTaskUtilities extends AsyncTask<Void, Void, ArrayList<Video>> {
 
     private static final String OBJECT_IDENTIFIER = "results";
-    private final Context mContext;
     private final int mMovieId;
 
-    public FetchVideosTaskUtilities(Context context, int movieId) {
-        this.mContext = context;
+    public FetchVideosTaskUtilities(int movieId) {
         this.mMovieId = movieId;
     }
 
@@ -31,7 +29,7 @@ public class FetchVideosTaskUtilities extends AsyncTask<Void, Void, ArrayList<Vi
         ArrayList<Video> videos = new ArrayList<>();
 
         try {
-            String mResult = NetworkUtilities.getResponseFromHttpsUrl(mContext, mURL);
+            String mResult = NetworkUtilities.getResponseFromHttpsUrl(mURL);
             if (mResult != null && !mResult.isEmpty()) {
                 JSONObject resultJSON = new JSONObject(mResult);
                 JSONArray resultArray = resultJSON.getJSONArray(OBJECT_IDENTIFIER);

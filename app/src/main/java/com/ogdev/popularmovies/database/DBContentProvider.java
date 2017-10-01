@@ -101,8 +101,15 @@ public class DBContentProvider extends ContentProvider {
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String selection, @Nullable String[] selectionArgs) {
+        UriArgs args = getUriMatchArguments(uri, null, selection, selectionArgs, null);
+
+        if (args.table == null) {
+            throw new UnsupportedOperationException("Unknown table for uri: " + uri);
+        }
+
+        final SQLiteDatabase db = mDBHelper.getWritableDatabase();
+        return db.update(args.table, contentValues, args.where, args.args);
     }
 
     private class UriArgs {

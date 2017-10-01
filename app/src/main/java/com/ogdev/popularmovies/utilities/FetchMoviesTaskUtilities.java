@@ -30,7 +30,7 @@ public class FetchMoviesTaskUtilities extends AsyncTask<Void, Void, ArrayList<Mo
         ArrayList<Movie> mMovies = new ArrayList<>();
 
         try {
-            String mResult = NetworkUtilities.getResponseFromHttpsUrl(mContext, mURL);
+            String mResult = NetworkUtilities.getResponseFromHttpsUrl(mURL);
             if (mResult != null && !mResult.isEmpty()) {
                 JSONObject mBillboardJson = new JSONObject(mResult);
                 JSONArray mBillboardArray = mBillboardJson.getJSONArray(OBJECT_IDENTIFIER);

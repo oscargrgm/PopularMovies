@@ -73,9 +73,29 @@ public class DatabaseUtilities {
         ArrayList<Movie> movies = new ArrayList<>();
         Cursor cursor = context.getContentResolver().query(MovieEntry.CONTENT_URI,
                 null,
-                MovieColumns.COLUMN_NAME_SOURCE + "=?",
-                new String[] {
+                MovieEntry.COLUMN_NAME_SOURCE + "=?",
+                new String[]{
                     source
+                },
+                MovieEntry.COLUMN_NAME_SOURCE
+        );
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                Movie movie = getMovieFromCursor(cursor);
+                movies.add(movie);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return movies;
+    }
+
+    public static ArrayList<Movie> getFavoriteMovies(Context context) {
+        ArrayList<Movie> movies = new ArrayList<>();
+        Cursor cursor = context.getContentResolver().query(MovieEntry.CONTENT_URI,
+                null,
+                MovieEntry.COLUMN_NAME_FAVORITE + "=?",
+                new String[]{
+                    String.valueOf(1)
                 },
                 null
         );
@@ -128,6 +148,20 @@ public class DatabaseUtilities {
         }
         return reviews;
     }
+
+    public static boolean updateFavoriteField(Context context, int id, int favoriteValue) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MovieColumns.COLUMN_NAME_FAVORITE, favoriteValue);
+        int rowsUpdated = context.getContentResolver().update(MovieEntry.CONTENT_URI,
+                contentValues,
+                MovieColumns._ID + "=?",
+                new String[]{
+                    String.valueOf(id)
+                }
+        );
+        return rowsUpdated > 0;
+    }
+
     private static void setContentValuesFromMovie(ContentValues contentValues, String source, Movie movie) {
         contentValues.put(MovieColumns.COLUMN_NAME_MOVIE_ID, movie.getMovieId());
         contentValues.put(MovieColumns.COLUMN_NAME_TITLE, movie.getTitle());

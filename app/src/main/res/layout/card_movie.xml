@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_movie"
     app:cardElevation="4dp"
     app:cardCornerRadius="0dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -22,15 +23,18 @@
             android:id="@+id/card_movie_title_textView"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:padding="4dp"
+            android:paddingStart="8dp"
+            android:paddingLeft="8dp"
+            android:paddingEnd="8dp"
+            android:paddingRight="8dp"
             android:layout_gravity="bottom"
             android:gravity="center_vertical"
-            android:background="@color/cardview_dark_background"
+            android:background="@color/movie_title_background"
             android:textColor="@android:color/white"
-            android:hint="@string/movie_title_hint"
-            android:textColorHint="@android:color/white"
+            tools:text="The Shawshank Redemption"
             android:maxLines="1"
-            android:ellipsize="end"/>
-    </LinearLayout>
+            android:ellipsize="end"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>

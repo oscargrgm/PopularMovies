@@ -10,4 +10,5 @@
 
     <color name="text_color">@color/black</color>
     <color name="divider_color">@color/light_grey</color>
+    <color name="movie_title_background">#88000000</color>
 </resources>

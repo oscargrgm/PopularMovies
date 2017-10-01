@@ -27,9 +27,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:gravity="center_vertical"
+            style="@style/AppTheme.TextStyle"
+            android:layout_gravity="center_vertical"
             tools:text="Mere Khwabon Mein - song by CinePlusPLus"
-            android:textColor="@color/text_color"
-            android:fontFamily="sans-serif-condensed"
             android:drawableEnd="@drawable/ic_play_video"
             android:drawableRight="@drawable/ic_play_video"/>
     </LinearLayout>

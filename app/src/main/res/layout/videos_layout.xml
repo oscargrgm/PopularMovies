@@ -10,10 +10,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/videos_layout_title"
         android:text="@string/videos_layout_title"
-        android:textColor="@color/black"
         android:layout_marginTop="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:fontFamily="sans-serif-condensed"/>
+        style="@style/AppTheme.TextStyle"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

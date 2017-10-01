@@ -15,4 +15,9 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
+    <style name="AppTheme.TextStyle">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:layout_gravity">start</item>
+    </style>
+
 </resources>

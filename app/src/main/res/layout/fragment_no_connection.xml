@@ -28,8 +28,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/no_connection_icons"
         android:text="@string/error_no_internet_connection"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        style="@style/AppTheme.TextStyle"
         android:textAlignment="center"/>
 
 </RelativeLayout>

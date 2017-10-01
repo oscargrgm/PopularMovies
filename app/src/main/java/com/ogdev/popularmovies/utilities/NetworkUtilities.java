@@ -6,7 +6,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 
 import com.ogdev.popularmovies.BuildConfig;
-import com.ogdev.popularmovies.activities.SplashActivity;
 
 import java.io.IOException;
 import java.io.InputStream;

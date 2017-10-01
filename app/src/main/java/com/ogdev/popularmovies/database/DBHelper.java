@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.ogdev.popularmovies.database.DBContract.MovieColumns;
-import com.ogdev.popularmovies.database.DBContract.VideoColumns;
 import com.ogdev.popularmovies.database.DBContract.ReviewColumns;
+import com.ogdev.popularmovies.database.DBContract.VideoColumns;
 
 public class DBHelper extends SQLiteOpenHelper {
 

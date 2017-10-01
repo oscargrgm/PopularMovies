@@ -6,10 +6,10 @@ import android.database.Cursor;
 
 import com.ogdev.popularmovies.database.DBContract.MovieColumns;
 import com.ogdev.popularmovies.database.DBContract.MovieEntry;
-import com.ogdev.popularmovies.database.DBContract.VideoColumns;
-import com.ogdev.popularmovies.database.DBContract.VideoEntry;
 import com.ogdev.popularmovies.database.DBContract.ReviewColumns;
 import com.ogdev.popularmovies.database.DBContract.ReviewEntry;
+import com.ogdev.popularmovies.database.DBContract.VideoColumns;
+import com.ogdev.popularmovies.database.DBContract.VideoEntry;
 import com.ogdev.popularmovies.models.Movie;
 import com.ogdev.popularmovies.models.Review;
 import com.ogdev.popularmovies.models.Video;

@@ -1,6 +1,5 @@
 package com.ogdev.popularmovies.utilities;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.ogdev.popularmovies.activities.MovieDetailActivity;

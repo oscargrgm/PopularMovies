@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class NetworkUtilities {
+public final class NetworkUtilities {
 
     // TODO Set your own API_KEY
     private final static String API_KEY = BuildConfig.API_KEY;

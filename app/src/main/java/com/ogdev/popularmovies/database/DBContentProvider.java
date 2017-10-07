@@ -121,18 +121,6 @@ public class DBContentProvider extends ContentProvider {
         public String order;
     }
 
-    /**
-     * A partir de una uri obtiene la tabla y la clausula de seleccion de la
-     * query a realizar en la base de datos.
-     *
-     * @param uri
-     *            es la uri recivida en el contentProvider
-     * @param preSelection
-     *            la clausula de selección previa
-     *
-     * @return Devuelve un {@link UriArgs} con la tabla y la clausula de
-     *         seleccion
-     */
     private UriArgs getUriMatchArguments(Uri uri, String[] preProjection, String preSelection, String[] preArgs, String preOrder) {
         UriArgs res = new UriArgs();
 

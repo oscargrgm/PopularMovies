@@ -16,23 +16,30 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String ARE_FRAGMENTS_FLAG = "ARE_FRAGMENTS_FLAG";
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
     private ActionBar mActionBar;
     private FragmentManager mFragmentManager;
+    private boolean areFragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            areFragments = savedInstanceState.getBoolean(ARE_FRAGMENTS_FLAG);
+        }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.addOnBackStackChangedListener(this);
 
         initToolbar();
-        initMainFragment();
+        if (!areFragments) {
+            initMainFragment();
+        }
     }
 
     private void initToolbar() {
@@ -49,6 +56,15 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 .replace(R.id.activity_main_frameLayout, new MoviesFragment(),
                         MoviesFragment.class.getSimpleName())
                 .commit();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        areFragments = (!mFragmentManager.getFragments().isEmpty());
+        if (areFragments) {
+            outState.putBoolean(ARE_FRAGMENTS_FLAG, true);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override

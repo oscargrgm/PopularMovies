@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,59 +34,49 @@ import butterknife.ButterKnife;
 
 public class MoviesFragment extends Fragment {
 
+    private static final String LOG_TAG = MoviesFragment.class.getSimpleName();
     private static final int COLUMNS_DIVIDER_WITH = 400;
 
+    private static String LAST_FIRST_VISIBLE_POSITION = "LAST_FIRST_VISIBLE_POSITION";
+
+    private RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
     private ArrayList<Movie> mMovies;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-        setActionBarTitle();
-    }
+    private int mLastFirstVisiblePosition;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view;
+        View view = inflater.inflate(R.layout.fragment_movies, container, false);
+        ButterKnife.bind(this, view);
+
+        setHasOptionsMenu(true);
+        setActionBarTitle();
 
         int sortOrder = getSortOrder();
         mMovies = getMoviesFromSortOrder(sortOrder);
 
-        if (!mMovies.isEmpty()) {
-            view = inflater.inflate(R.layout.fragment_movies, container, false);
-            ButterKnife.bind(this, view);
+        mRecyclerView = view.findViewById(R.id.movies_recyclerView);
+        mRecyclerView.setHasFixedSize(true);
 
-            RecyclerView mRecyclerView = view.findViewById(R.id.movies_recyclerView);
-            mRecyclerView.setHasFixedSize(true);
-
-            switch (sortOrder) {
-                case 1:
-                    Collections.sort(mMovies, new PopularSorter());
-                    break;
-                case 2:
-                    Collections.sort(mMovies, new RatingSorter());
-                    break;
-            }
-
-            mAdapter = new MoviesAdapter(getContext(), mMovies);
-            GridLayoutManager mLayoutManager =
-                    new GridLayoutManager(getContext(), getNumberOfColumns());
-
-            mRecyclerView.setAdapter(mAdapter);
-            mRecyclerView.setLayoutManager(mLayoutManager);
-        } else {
-            view = inflater.inflate(R.layout.fragment_no_connection, container, false);
-            ButterKnife.bind(this, view);
+        switch (sortOrder) {
+            case 1:
+                Collections.sort(mMovies, new PopularSorter());
+                break;
+            case 2:
+                Collections.sort(mMovies, new RatingSorter());
+                break;
         }
 
-        return view;
-    }
+        mAdapter = new MoviesAdapter(getContext(), mMovies);
+        GridLayoutManager mLayoutManager =
+                new GridLayoutManager(getContext(), getNumberOfColumns());
 
-    @Override
-    public void onPause() {
-        super.onPause();
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        return view;
     }
 
     @Override
@@ -95,37 +86,25 @@ public class MoviesFragment extends Fragment {
         mAdapter.updateData(mMovies);
     }
 
-    private void setActionBarTitle() {
-        String title = getTitleFromOrder();
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(title);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        int lastFirstVisiblePosition = ((GridLayoutManager) mRecyclerView.getLayoutManager())
+                .findFirstCompletelyVisibleItemPosition();
+        if (lastFirstVisiblePosition > 0) {
+            outState.putInt(LAST_FIRST_VISIBLE_POSITION, lastFirstVisiblePosition);
         }
+        super.onSaveInstanceState(outState);
     }
 
-    private String getTitleFromOrder() {
-        switch (getSortOrder()) {
-            case 1:
-                return getString(R.string.menu_title_popular);
-            case 2:
-                return getString(R.string.menu_title_top_rated);
-            case 3:
-                return getString(R.string.menu_title_favorites);
-            default:
-                return getString(R.string.menu_title_popular);
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            mLastFirstVisiblePosition = savedInstanceState.getInt(LAST_FIRST_VISIBLE_POSITION);
+            if (mLastFirstVisiblePosition > 0) {
+                mRecyclerView.getLayoutManager().scrollToPosition(mLastFirstVisiblePosition);
+            }
         }
-    }
-
-    private int getNumberOfColumns() {
-        DisplayMetrics mMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
-
-        int mWidth = mMetrics.widthPixels;
-        int mColumns = mWidth / COLUMNS_DIVIDER_WITH;
-        if (mColumns < 2) {
-            return 2;
-        }
-        return mColumns;
     }
 
     @Override
@@ -163,6 +142,39 @@ public class MoviesFragment extends Fragment {
         }
 
         return false;
+    }
+
+    private void setActionBarTitle() {
+        String title = getTitleFromOrder();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(title);
+        }
+    }
+
+    private String getTitleFromOrder() {
+        switch (getSortOrder()) {
+            case 1:
+                return getString(R.string.menu_title_popular);
+            case 2:
+                return getString(R.string.menu_title_top_rated);
+            case 3:
+                return getString(R.string.menu_title_favorites);
+            default:
+                return getString(R.string.menu_title_popular);
+        }
+    }
+
+    private int getNumberOfColumns() {
+        DisplayMetrics mMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+
+        int mWidth = mMetrics.widthPixels;
+        int mColumns = mWidth / COLUMNS_DIVIDER_WITH;
+        if (mColumns < 2) {
+            return 2;
+        }
+        return mColumns;
     }
 
     private void fetchMoviesAndUpdateList(String order) {
